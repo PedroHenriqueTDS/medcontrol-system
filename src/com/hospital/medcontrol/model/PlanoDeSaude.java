@@ -1,4 +1,4 @@
-package com.hospital.medcontrol.gerenciadores;
+package com.hospital.medcontrol.model;
 
 import com.hospital.medcontrol.enums.TipoInternacao;
 
@@ -11,6 +11,10 @@ public class PlanoDeSaude {
         Operadora = operadora;
         this.tipoInternacaoPermitida = tipoInternacaoPermitida;
         this.percentualPagamento = percentualPagamento;
+    }
+
+    public void setPercentualPagamento(double percentualPagamento) {
+
     }
 
     public String getOperadora() {

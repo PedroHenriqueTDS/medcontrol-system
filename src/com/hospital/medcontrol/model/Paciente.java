@@ -1,4 +1,4 @@
-package com.hospital.medcontrol.gerenciadores;
+package com.hospital.medcontrol.model;
 
 public class Paciente {
     private final String nome;
