@@ -24,7 +24,9 @@ public class Medico {
     public String getCrm() {
         return crm;
     }
-    public Especialidade getEspecialidade() { return especialidade; }
+    public Especialidade getEspecialidade() {
+        return especialidade;
+    }
     public boolean isAtivo() {
         return ativo;
     }
