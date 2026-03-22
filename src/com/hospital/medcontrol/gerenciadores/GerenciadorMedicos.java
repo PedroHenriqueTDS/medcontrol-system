@@ -1,74 +1,72 @@
 package com.hospital.medcontrol.gerenciadores;
 
-import com.hospital.medcontrol.exceptions.CRMInvalidoException;
-import com.hospital.medcontrol.exceptions.MedicoJaExisteException;
-import com.hospital.medcontrol.exceptions.MedicoNaoEncontradoException;
 import com.hospital.medcontrol.model.Medico;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class GerenciadorMedicos {
-    List<Medico> medicos = new ArrayList<Medico>();
+    private List<Medico> medicos = new ArrayList<>();
 
     public void cadastrarMedico(Medico medico) {
         if (!medico.getCrm().matches("\\d{6}/[A-Z]{2}")) {
             throw new CRMInvalidoException();
         }
         for (Medico m : medicos) {
-            if (m.getCrm().equals(medico.getCrm())) {
+            if (m.getCrm().equalsIgnoreCase(medico.getCrm())) {
                 throw new MedicoJaExisteException();
             }
         }
         medicos.add(medico);
     }
-    public void removerMedico(String crm) {
-        Medico medicoRemover = null;
-        for(Medico m : medicos) {
-            if (m.getCrm().equals(crm)){
-                medicoRemover = m;
-                break;
-            }
-        }
-        if(medicoRemover == null) {
-            throw new MedicoNaoEncontradoException();
-        }
-        medicos.remove(medicoRemover);
-    }
 
     public Medico buscarMedico(String crm) {
         for (Medico m : medicos) {
-            if (m.getCrm().equals(crm)) {
+            if (m.getCrm().equalsIgnoreCase(crm)) {
                 return m;
             }
         }
         throw new MedicoNaoEncontradoException();
     }
 
-    public void desativarMedico(String crm) {
+    public void removerMedico(String crm) {
+        Medico m = buscarMedico(crm);
+        m.setAtivo(false);
+    }
+
+    public void ativarMedico(String crm) {
+        Medico m = buscarMedico(crm);
+        m.setAtivo(true);
+    }
+
+    public List<Medico> listarMedicosAtivos() {
+        List<Medico> ativos = new ArrayList<>();
         for (Medico m : medicos) {
-            if (m.getCrm().equals(crm)) {
-                m.setAtivo(false);
+            if (m.isAtivo()) {
+                ativos.add(m);
             }
         }
+        return ativos;
     }
 
-
-    public void AtivarMedico(String crm) {
-        for (Medico m : medicos) {
-           m.setAtivo(true);
-        }
-    }
-    public void listarMedicos() {
-        if(medicos.isEmpty()) {
+    public void imprimirTodos() {
+        if (medicos.isEmpty()) {
             System.out.println("Nenhum médico cadastrado.");
             return;
         }
-        //talvez eu coloque um print aqui, to pensando
         for (Medico m : medicos) {
             System.out.println(m);
         }
     }
-}
 
-//selo Peu de qualidade(vale nada)
+    public static class CRMInvalidoException extends RuntimeException {
+        public CRMInvalidoException() { super("CRM inválido! Formato correto: 123456/UF"); }
+    }
+
+    public static class MedicoJaExisteException extends RuntimeException {
+        public MedicoJaExisteException() { super("Médico já cadastrado com este CRM."); }
+    }
+
+    public static class MedicoNaoEncontradoException extends RuntimeException {
+        public MedicoNaoEncontradoException() { super("Médico não encontrado no sistema."); }
+    }
+}
