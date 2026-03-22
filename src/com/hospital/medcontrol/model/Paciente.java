@@ -1,9 +1,9 @@
 package com.hospital.medcontrol.model;
 
 public class Paciente {
-    private final String nome;
-    private final String cpf;
-    private final String telefone;
+    private String nome;
+    private String cpf;
+    private String telefone;
     private PlanoDeSaude planoDeSaude;
 
     public Paciente(String nome, String cpf, String telefone, PlanoDeSaude planoDeSaude) {
@@ -34,5 +34,15 @@ public class Paciente {
     }
     public double CalcularValorAPagar(double valorInternacao) {
         return planoDeSaude.calcularValorPago(valorInternacao);
+    }
+
+    @Override
+    public String toString() {
+        return "Paciente{" +
+                "nome='" + nome + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", planoDeSaude=" + planoDeSaude +
+                '}';
     }
 }
