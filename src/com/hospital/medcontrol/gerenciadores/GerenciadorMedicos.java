@@ -70,3 +70,4 @@ public class GerenciadorMedicos {
         public MedicoNaoEncontradoException() { super("Médico não encontrado no sistema."); }
     }
 }
+// Modulo de medicos finalizado e revisado por Peu
