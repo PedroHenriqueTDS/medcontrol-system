@@ -16,6 +16,9 @@ public class Pagamento {
         this.formaPagamento = formaPagamento;
     }
 
+    public Pagamento(int id, double valor, FormaPagamento forma) {
+    }
+
     private  double CalcularValorFinal(){
         if (formaPagamento == FormaPagamento.PIX_DINHEIRO) {
             return ValorOriginal * 0.9;
