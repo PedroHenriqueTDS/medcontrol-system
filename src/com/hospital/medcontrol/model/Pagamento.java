@@ -17,15 +17,19 @@ public class Pagamento {
     }
 
     public Pagamento(int id, double valor, FormaPagamento forma) {
+        this.id = id;
+        this.ValorOriginal = valor;
+        this.formaPagamento = forma;
+        this.ValorFinal = calcularValorFinal(valor, forma);
     }
 
-    private  double CalcularValorFinal(){
-        if (formaPagamento == FormaPagamento.PIX_DINHEIRO) {
-            return ValorOriginal * 0.9;
-        } else if (formaPagamento == FormaPagamento.PARCELADO) {
-            return ValorOriginal * 1.08;
+    private double calcularValorFinal(double valor, FormaPagamento forma) {
+        if (forma == FormaPagamento.PIX_DINHEIRO) {
+            return valor * 0.9;
+        } else if (forma == FormaPagamento.PARCELADO) {
+            return valor * 1.08;
         } else {
-            return ValorOriginal;
+            return valor;
         }
     }
 
