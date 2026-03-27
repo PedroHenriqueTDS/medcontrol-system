@@ -2,6 +2,9 @@ package com.hospital.medcontrol.main;
 
 import com.hospital.medcontrol.fachada.Fachada;
 
+import javax.sound.midi.spi.SoundbankReader;
+import java.sql.SQLOutput;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Main {
@@ -33,6 +36,29 @@ public class Main {
                 case 2:
                 case 3:
                 case 4:
+                    System.out.println("id:");
+                    int id = sc.nextInt();
+                    sc.nextLine();
+
+                    System.out.print("Paciente:");
+                    String Paciente = sc.nextLine();
+
+                    System.out.print("Medico:");
+                    String Medico = sc.nextLine();
+
+                    System.out.println("tipo de Internacao ENFERMARIA,APARTAMENTO,UTI");
+                    String Internacao = sc.nextLine();
+
+                    System.out.println("quarto:");
+                    String qaurto = sc.nextLine();
+
+                        System.out.println("Plano ENFERMARIA , APARTAMENTO , PARTICULAR:");
+                    String plano = sc.nextLine();
+
+                    break;
+
+
+
                 case 5:
                     System.out.println("Funcionalidade ainda não implementada.");
                     break;
@@ -55,7 +81,6 @@ public class Main {
                     System.out.println("\n--- RELATÓRIO DE PAGAMENTOS ---");
                     fachada.relatorioPagamentos();
                     break;
-
                 case 0:
                     System.out.println("Encerrando sistema...");
                     break;
