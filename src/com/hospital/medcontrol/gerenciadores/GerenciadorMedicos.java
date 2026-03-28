@@ -3,8 +3,10 @@ package com.hospital.medcontrol.gerenciadores;
 import com.hospital.medcontrol.model.Medico;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable; // ADICIONADO
 
-public class GerenciadorMedicos {
+public class GerenciadorMedicos implements Serializable { // ADICIONADO
+    private static final long serialVersionUID = 1L; // ADICIONADO
     private List<Medico> medicos = new ArrayList<>();
 
     public void cadastrarMedico(Medico medico) {
@@ -21,9 +23,7 @@ public class GerenciadorMedicos {
 
     public Medico buscarMedico(String crm) {
         for (Medico m : medicos) {
-            if (m.getCrm().equalsIgnoreCase(crm)) {
-                return m;
-            }
+            if (m.getCrm().equalsIgnoreCase(crm)) return m;
         }
         throw new MedicoNaoEncontradoException();
     }
@@ -41,9 +41,7 @@ public class GerenciadorMedicos {
     public List<Medico> listarMedicosAtivos() {
         List<Medico> ativos = new ArrayList<>();
         for (Medico m : medicos) {
-            if (m.isAtivo()) {
-                ativos.add(m);
-            }
+            if (m.isAtivo()) ativos.add(m);
         }
         return ativos;
     }
@@ -53,19 +51,16 @@ public class GerenciadorMedicos {
             System.out.println("Nenhum médico cadastrado.");
             return;
         }
-        for (Medico m : medicos) {
-            System.out.println(m);
-        }
+        for (Medico m : medicos) System.out.println(m);
     }
 
+    //Exceptions
     public static class CRMInvalidoException extends RuntimeException {
         public CRMInvalidoException() { super("CRM inválido! Formato correto: 123456/UF"); }
     }
-
     public static class MedicoJaExisteException extends RuntimeException {
         public MedicoJaExisteException() { super("Médico já cadastrado com este CRM."); }
     }
-
     public static class MedicoNaoEncontradoException extends RuntimeException {
         public MedicoNaoEncontradoException() { super("Médico não encontrado no sistema."); }
     }
