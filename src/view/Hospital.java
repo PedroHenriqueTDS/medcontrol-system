@@ -1,10 +1,14 @@
 package view;
 
 import arquivos.Persistencia;
+import com.hospital.medcontrol.gerenciadores.GerenciadorDePaciente;
 import com.hospital.medcontrol.gerenciadores.GerenciadorMedicos;
 import com.hospital.medcontrol.gerenciadores.GerenciadorPagamentos;
 import com.hospital.medcontrol.model.Medico;
 import com.hospital.medcontrol.enums.Especialidade;
+import com.hospital.medcontrol.model.Paciente;
+import com.hospital.medcontrol.model.PlanoDeSaude;
+
 import java.io.Serializable;
 
 public class Hospital implements Serializable {
@@ -12,6 +16,7 @@ public class Hospital implements Serializable {
     private static final Persistencia<Hospital> persistencia = new Persistencia<>();
 
     // 1. ADICIONEM SEUS GERENCIADORES AQUI
+    private GerenciadorDePaciente gerenciadorPaciente = new GerenciadorDePaciente();
     private GerenciadorMedicos gerMedicos = new GerenciadorMedicos();
     private GerenciadorPagamentos gerPagamentos = new GerenciadorPagamentos();
 
@@ -19,6 +24,13 @@ public class Hospital implements Serializable {
     public void cadastrarMedico(String nome, String crm, Especialidade esp) {
         Medico novo = new Medico(nome, crm, esp);
         gerMedicos.cadastrarMedico(novo);
+    }
+    public void cadastrarPaciente(String nome, String cpf, String telefone, PlanoDeSaude plano) {
+        Paciente novo = new Paciente(nome, cpf, telefone, plano);
+        gerenciadorPaciente.cadastrarPaciente(nome, cpf, telefone, plano);
+    }
+    public Paciente localizarPaciente(String cpf) {
+        return gerenciadorPaciente.localizarPaciente(cpf);
     }
 
     public void listarMedicos() {

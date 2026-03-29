@@ -1,5 +1,6 @@
 package com.hospital.medcontrol.main;
 
+import com.hospital.medcontrol.model.Paciente;
 import view.Hospital;
 import com.hospital.medcontrol.enums.Especialidade;
 import java.util.Scanner;
@@ -37,10 +38,37 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-                    System.out.println("Arrocha everton");
+                    System.out.println("\nCADASTRO DE PACIENTE ");
+                    sc.nextLine();
+
+                    System.out.println("Nome do Paciente: ");
+                    nomeArquivo = sc.nextLine();
+
+                    System.out.println("CPF do Paciente(11 digitos): ");
+                    sc.nextDouble();
+
+                    System.out.println("Telefone (11 digitos): ");
+                    sc.nextDouble();
                     break;
+
                 case 2:
-                    System.out.println("Arrocha everton");
+                    System.out.println("\nBUSCAR PACIENTE");
+                    sc.nextLine();
+
+                    System.out.print("Digite o CPF: ");
+                    String cpfBusca = sc.nextLine();
+
+                    Paciente paciente = hospital.localizarPaciente(cpfBusca);
+
+                    if (paciente != null) {
+                        System.out.println("Paciente encontrado:");
+                        System.out.println("Nome: " + paciente.getNome());
+                        System.out.println("CPF: " + paciente.getCpf());
+                        System.out.println("Telefone: " + paciente.getTelefone());
+                    } else {
+                        System.out.println("Paciente não encontrado.");
+                    }
+
                     break;
                 case 3: // módulo de medicos(peu)
                     System.out.println("\nCADASTRO DE MÉDICO ");
