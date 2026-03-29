@@ -9,7 +9,7 @@ import java.util.List;
 public class GerenciadorDePaciente {
     private List<Paciente> pacientes;
 
-    public GerenciadorDePaciente(List<Paciente> pacientes) {
+    public GerenciadorDePaciente() {
         List novoPacientes = new ArrayList();
         this.pacientes = pacientes;
     }
