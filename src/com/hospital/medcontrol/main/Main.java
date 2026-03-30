@@ -1,5 +1,6 @@
 package com.hospital.medcontrol.main;
 
+import com.hospital.medcontrol.enums.TipoLeito;
 import com.hospital.medcontrol.model.Paciente;
 import view.Hospital;
 import com.hospital.medcontrol.enums.Especialidade;
@@ -37,7 +38,7 @@ public class Main {
             opcao = sc.nextInt();
 
             switch (opcao) {
-                case 1:
+                case 1: {
                     System.out.println("\nCADASTRO DE PACIENTE ");
                     sc.nextLine();
 
@@ -50,8 +51,10 @@ public class Main {
                     System.out.println("Telefone (11 digitos): ");
                     sc.nextDouble();
                     break;
+                }
 
-                case 2:
+                case 2: {
+
                     System.out.println("\nBUSCAR PACIENTE");
                     sc.nextLine();
 
@@ -70,7 +73,10 @@ public class Main {
                     }
 
                     break;
-                case 3: // módulo de medicos(peu)
+                }
+
+                case 3: {
+                    // módulo de medicos(peu)
                     System.out.println("\nCADASTRO DE MÉDICO ");
                     sc.nextLine();
 
@@ -110,17 +116,57 @@ public class Main {
                         }
                     }
                     break;
+                }
 
-                case 4:
-                    // Módulo de Internação (Marimês)
-                    System.out.println("Funcionalidade de internação.");
+                case 4: {
+                    System.out.print("ID: ");
+                    int id = sc.nextInt();
+                    sc.nextLine();
+
+                    System.out.print("Paciente: ");
+                    String paciente = sc.nextLine();
+
+                    System.out.print("Médico: ");
+                    String medico = sc.nextLine();
+
+                    System.out.println("Tipo de leito");
+                    System.out.println("1 - Enfermaria");
+                    System.out.println("2 - Apartamento");
+                    System.out.println("3 - UTI");
+
+                    System.out.println("Opcao: ");
+                    int opcaoLeito = sc.nextInt();
+
+                    TipoLeito tipoLeito = null;
+
+                    switch (opcaoLeito) {
+                        case 1 -> tipoLeito = TipoLeito.ENFERMARIA;
+                        case 2 -> tipoLeito = TipoLeito.APARTAMENTO;
+                        case 3 -> tipoLeito = TipoLeito.UTI;
+                        default -> {
+                            System.out.println("Opção inválida!");
+                        }
+                    }
+
+                    System.out.print("Quarto: ");
+                    String quarto = sc.nextLine();
+
+                    System.out.print("Plano (enfermaria/apartamento/particular): ");
+                    String plano = sc.nextLine();
+
+                    hospital.registrarInternacao(
+                            id, paciente, medico, tipoLeito, quarto,
+                            java.time.LocalDate.now(), plano
+                    );
                     break;
+                }
 
-                case 5:
+                case 5: {
                     System.out.println("Funcionalidade de alta.");
                     break;
+                }
 
-                case 6:
+                case 6: {
                     // Módulo de Pagamento (Jeff Queijos)
                     System.out.print("Digite o valor da internação: ");
                     double valor = sc.nextDouble();
@@ -133,18 +179,21 @@ public class Main {
                     int forma = sc.nextInt();
                     hospital.pagarInternacao(valor, forma);
                     break;
+                }
 
-                case 7:
+                case 7: {
                     System.out.println("\n--- RELATÓRIOS ---");
                     hospital.relatorioPagamentos();
                     hospital.listarMedicos(); // Exibe seus médicos cadastrados
                     break;
+                }
 
-                case 0:
+                case 0: {
                     System.out.println("Salvando dados no arquivo " + nomeArquivo + "...");
                     hospital.salvarHospital(nomeArquivo); // SALVAMENTO OBRIGATÓRIO
                     System.out.println("Sistema encerrado com sucesso.");
                     break;
+                }
 
                 default:
                     System.out.println("Opção inválida!");

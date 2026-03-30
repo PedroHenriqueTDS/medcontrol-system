@@ -1,5 +1,5 @@
 package com.hospital.medcontrol.model;
-import com.hospital.medcontrol.enums.TipoInternacao;
+import com.hospital.medcontrol.enums.TipoLeito;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -8,17 +8,17 @@ public class Internacao {
     private int id;
     private String paciente;
     private String medico;
-    private TipoInternacao tipoInternacao;
+    private TipoLeito tipoLeito;
     private String quarto;
     private LocalDate dataEntrada;
     private LocalDate dataAlta;
     private String tipoPlano;
 
-    public Internacao(int id, String paciente, String medico , TipoInternacao tipoInternacao, String quarto , LocalDate dataEntrada , String tipoPlano){
+    public Internacao(int id, String paciente, String medico , TipoLeito tipoLeito, String quarto , LocalDate dataEntrada , String tipoPlano){
         this.id=id;
         this.paciente=paciente;
         this.medico=medico;
-        this.tipoInternacao=tipoInternacao;
+        this.tipoLeito = tipoLeito;
         this.quarto=quarto;
         this.dataEntrada=dataEntrada;
         this.tipoPlano=tipoPlano;
@@ -35,8 +35,8 @@ public class Internacao {
 
         double diaria = 0;
 
-        switch (tipoInternacao){
-            case ENFERMEIRA:
+        switch (tipoLeito){
+            case ENFERMARIA:
                 diaria = 300;
                 break;
             case APARTAMENTO:
@@ -73,7 +73,7 @@ public class Internacao {
     public String toString() {
         return "ID: " + id +
                 " | Paciente: " + paciente +
-                " | Leito: " + tipoInternacao +
+                " | Leito: " + tipoLeito +
                 " | Entrada: " + dataEntrada +
                 " | Alta: " + dataAlta;
 

@@ -1,24 +1,24 @@
 package com.hospital.medcontrol.model;
 
-import com.hospital.medcontrol.enums.TipoInternacao;
+import com.hospital.medcontrol.enums.TipoLeito;
 
 public class PlanoDeSaude {
     private String Operadora;
-    private TipoInternacao tipoInternacaoPermitida;
+    private TipoLeito tipoLeitoPermitida;
     private double percentualPagamento;
 
-    public PlanoDeSaude(String operadora, TipoInternacao tipoInternacaoPermitida, double percentualPagamento) {
+    public PlanoDeSaude(String operadora, TipoLeito tipoLeitoPermitida, double percentualPagamento) {
         Operadora = operadora;
-        this.tipoInternacaoPermitida = tipoInternacaoPermitida;
+        this.tipoLeitoPermitida = tipoLeitoPermitida;
         this.percentualPagamento = percentualPagamento;
     }
 
-    private void validarDados(String operadora, TipoInternacao tipoInternacaoPermitida, double percentualPagamento) {
+    private void validarDados(String operadora, TipoLeito tipoLeitoPermitida, double percentualPagamento) {
         if (operadora == null || operadora.isBlank()) {
             throw new IllegalArgumentException("Operadora não pode ser nula ou vazia.");
         }
 
-        if (tipoInternacaoPermitida == null) {
+        if (tipoLeitoPermitida == null) {
             throw new IllegalArgumentException("Tipo de internação é obrigatório.");
         }
 
@@ -39,8 +39,8 @@ public class PlanoDeSaude {
         return Operadora;
     }
 
-    public TipoInternacao getTipoInternacaoPermitida() {
-        return tipoInternacaoPermitida;
+    public TipoLeito getTipoInternacaoPermitida() {
+        return tipoLeitoPermitida;
     }
 
     public double getPercentualPagamento() {

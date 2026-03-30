@@ -1,7 +1,7 @@
 package com.hospital.medcontrol.enums;
 
-public enum TipoInternacao {
+public enum TipoLeito {
     APARTAMENTO,
-    ENFERMEIRA,
+    ENFERMARIA,
     UTI
 }
