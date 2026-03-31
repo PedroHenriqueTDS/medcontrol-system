@@ -2,7 +2,11 @@ package com.hospital.medcontrol.model;
 
 import com.hospital.medcontrol.enums.TipoLeito;
 
-public class PlanoDeSaude {
+import java.io.Serializable;
+
+public class PlanoDeSaude implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String operadora;
     private TipoLeito tipoLeitoPermitido;
     private double percentualPagamento;

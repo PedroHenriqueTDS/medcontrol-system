@@ -3,10 +3,13 @@ package com.hospital.medcontrol.gerenciadores;
 import com.hospital.medcontrol.model.Paciente;
 import com.hospital.medcontrol.model.PlanoDeSaude;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GerenciadorDePaciente {
+public class GerenciadorDePaciente implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private List<Paciente> pacientes;
 
     public GerenciadorDePaciente() {

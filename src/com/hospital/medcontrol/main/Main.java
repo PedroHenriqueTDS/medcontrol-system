@@ -2,6 +2,7 @@ package com.hospital.medcontrol.main;
 
 import com.hospital.medcontrol.enums.TipoLeito;
 import com.hospital.medcontrol.model.Paciente;
+import com.hospital.medcontrol.model.PlanoDeSaude;
 import view.Hospital;
 import com.hospital.medcontrol.enums.Especialidade;
 import java.util.Scanner;
@@ -39,18 +40,66 @@ public class Main {
 
             switch (opcao) {
                 case 1: {
-                    System.out.println("\nCADASTRO DE PACIENTE ");
-                    sc.nextLine();
+                    {
+                        System.out.println("\nCADASTRO DE PACIENTE");
+                        sc.nextLine();
 
-                    System.out.println("Nome do Paciente: ");
-                    nomeArquivo = sc.nextLine();
+                        System.out.print("Nome do Paciente: ");
+                        String nome = sc.nextLine();
 
-                    System.out.println("CPF do Paciente(11 digitos): ");
-                    sc.nextDouble();
+                        System.out.print("CPF do Paciente (11 dígitos): ");
+                        String cpf = sc.nextLine();
 
-                    System.out.println("Telefone (11 digitos): ");
-                    sc.nextDouble();
-                    break;
+                        System.out.print("Telefone (11 dígitos): ");
+                        String telefone = sc.nextLine();
+
+                        System.out.print("Operadora do plano: ");
+                        String operadora = sc.nextLine();
+
+                        System.out.println("Tipo de leito permitido:");
+                        System.out.println("1 - Enfermaria");
+                        System.out.println("2 - Apartamento");
+                        System.out.println("3 - UTI");
+                        System.out.print("Opção: ");
+                        int opcaoLeito = sc.nextInt();
+
+                        TipoLeito tipoLeito = null;
+
+                        switch (opcaoLeito) {
+                            case 1 -> tipoLeito = TipoLeito.ENFERMARIA;
+                            case 2 -> tipoLeito = TipoLeito.APARTAMENTO;
+                            case 3 -> tipoLeito = TipoLeito.UTI;
+                            default -> System.out.println("Opção inválida!");
+                        }
+
+                        if (tipoLeito != null) {
+                            System.out.println("Percentual de pagamento:");
+                            System.out.println("1 - 0.0");
+                            System.out.println("2 - 0.15");
+                            System.out.println("3 - 1.0");
+                            System.out.print("Opção: ");
+                            int opcaoPercentual = sc.nextInt();
+
+                            double percentual = 0.0;
+
+                            switch (opcaoPercentual) {
+                                case 1 -> percentual = 0.0;
+                                case 2 -> percentual = 0.15;
+                                case 3 -> percentual = 1.0;
+                                default -> System.out.println("Opção inválida!");
+                            }
+
+                            try {
+                                PlanoDeSaude plano = new PlanoDeSaude(operadora, tipoLeito, percentual);
+                                hospital.cadastrarPaciente(nome, cpf, telefone, plano);
+                                System.out.println("Paciente cadastrado com sucesso!");
+                            } catch (Exception e) {
+                                System.out.println("Erro ao cadastrar paciente: " + e.getMessage());
+                            }
+                        }
+
+                        break;
+                    }
                 }
 
                 case 2: {
