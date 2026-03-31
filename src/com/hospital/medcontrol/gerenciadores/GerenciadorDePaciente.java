@@ -10,19 +10,25 @@ public class GerenciadorDePaciente {
     private List<Paciente> pacientes;
 
     public GerenciadorDePaciente() {
-        List novoPacientes = new ArrayList();
-        this.pacientes = pacientes;
+        this.pacientes = new ArrayList<>();
     }
 
     public void cadastrarPaciente(String nome, String cpf, String telefone, PlanoDeSaude planoDeSaude) {
         validarTexto(nome, "Nome");
-        validarTexto(cpf, "CPF");
-        validarTexto(telefone, "Telefone");
+        validarCpf(cpf);
+        validarTelefone(telefone);
+
+        if (cpfJaCadastrado(cpf)) {
+            throw new IllegalArgumentException("Já existe paciente cadastrado com esse CPF.");
+        }
+
         Paciente novoPaciente = new Paciente(nome, cpf, telefone, planoDeSaude);
         pacientes.add(novoPaciente);
     }
 
     public Paciente localizarPaciente(String cpf) {
+        validarCpf(cpf);
+
         for (Paciente paciente : pacientes) {
             if (paciente.getCpf().equals(cpf)) {
                 return paciente;
@@ -35,7 +41,7 @@ public class GerenciadorDePaciente {
         Paciente paciente = localizarPaciente(cpf);
 
         if (paciente != null) {
-            paciente.AtualizarPlanoDeSaude(novoPlano);
+            paciente.atualizarPlanoDeSaude(novoPlano);
         }
     }
 
@@ -50,31 +56,35 @@ public class GerenciadorDePaciente {
 
     private void validarCpf(String cpf) {
         if (cpf == null || cpf.isBlank()) {
-            throw new IllegalArgumentException("Cpf não pode ser nulo ou vazio");
-        }
-        if (cpf.length() != 11) {
-            throw new IllegalArgumentException("Cpf deve conter 11 digitos");
-        }
-        if (!cpf.matches("\\d+")) {
-            throw new IllegalArgumentException("CPF deve conter apenas números.");
+            throw new IllegalArgumentException("CPF não pode ser nulo ou vazio.");
         }
 
+        if (cpf.length() != 11) {
+            throw new IllegalArgumentException("CPF deve conter 11 dígitos.");
+        }
+
+        if (!cpf.matches("\\d{11}")) {
+            throw new IllegalArgumentException("CPF deve conter apenas números.");
+        }
     }
 
     private void validarTelefone(String telefone) {
         if (telefone == null || telefone.isBlank()) {
-            throw new IllegalArgumentException("Telefon não pode ser nulo ou vazio");
+            throw new IllegalArgumentException("Telefone não pode ser nulo ou vazio.");
         }
+
         if (telefone.length() != 11) {
-            throw new IllegalArgumentException("Telefone deve conter 11 digitos");
+            throw new IllegalArgumentException("Telefone deve conter 11 dígitos.");
         }
-        if (!telefone.matches("\\d+")) {
+
+        if (!telefone.matches("\\d{11}")) {
             throw new IllegalArgumentException("Telefone deve conter apenas números.");
         }
     }
+
     private void validarTexto(String valor, String campo) {
         if (valor == null || valor.isBlank()) {
-            throw new IllegalArgumentException(campo + " não pode ser nulo ou vazio");
+            throw new IllegalArgumentException(campo + " não pode ser nulo ou vazio.");
         }
     }
 }

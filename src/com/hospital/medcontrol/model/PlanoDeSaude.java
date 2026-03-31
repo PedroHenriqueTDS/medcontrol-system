@@ -3,22 +3,23 @@ package com.hospital.medcontrol.model;
 import com.hospital.medcontrol.enums.TipoLeito;
 
 public class PlanoDeSaude {
-    private String Operadora;
-    private TipoLeito tipoLeitoPermitida;
+    private String operadora;
+    private TipoLeito tipoLeitoPermitido;
     private double percentualPagamento;
 
-    public PlanoDeSaude(String operadora, TipoLeito tipoLeitoPermitida, double percentualPagamento) {
-        Operadora = operadora;
-        this.tipoLeitoPermitida = tipoLeitoPermitida;
+    public PlanoDeSaude(String operadora, TipoLeito tipoLeitoPermitido, double percentualPagamento) {
+        validarDados(operadora, tipoLeitoPermitido, percentualPagamento);
+        this.operadora = operadora;
+        this.tipoLeitoPermitido = tipoLeitoPermitido;
         this.percentualPagamento = percentualPagamento;
     }
 
-    private void validarDados(String operadora, TipoLeito tipoLeitoPermitida, double percentualPagamento) {
+    private void validarDados(String operadora, TipoLeito tipoLeitoPermitido, double percentualPagamento) {
         if (operadora == null || operadora.isBlank()) {
             throw new IllegalArgumentException("Operadora não pode ser nula ou vazia.");
         }
 
-        if (tipoLeitoPermitida == null) {
+        if (tipoLeitoPermitido == null) {
             throw new IllegalArgumentException("Tipo de internação é obrigatório.");
         }
 
@@ -36,17 +37,27 @@ public class PlanoDeSaude {
     }
 
     public String getOperadora() {
-        return Operadora;
+        return operadora;
     }
 
     public TipoLeito getTipoInternacaoPermitida() {
-        return tipoLeitoPermitida;
+        return tipoLeitoPermitido;
     }
 
     public double getPercentualPagamento() {
         return percentualPagamento;
     }
+
     public double calcularValorPago(double valorInternacao) {
         return valorInternacao * percentualPagamento;
+    }
+
+    @Override
+    public String toString() {
+        return "PlanoDeSaude{" +
+                "operadora='" + operadora + '\'' +
+                ", tipoLeitoPermitido=" + tipoLeitoPermitido +
+                ", percentualPagamento=" + percentualPagamento +
+                '}';
     }
 }

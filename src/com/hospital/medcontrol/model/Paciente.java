@@ -29,10 +29,11 @@ public class Paciente {
         return planoDeSaude;
     }
 
-    public void AtualizarPlanoDeSaude( PlanoDeSaude novoPlano) {
+    public void atualizarPlanoDeSaude(PlanoDeSaude novoPlano) {
         this.planoDeSaude = novoPlano;
     }
-    public double CalcularValorAPagar(double valorInternacao) {
+
+    public double calcularValorAPagar(double valorInternacao) {
         return planoDeSaude.calcularValorPago(valorInternacao);
     }
 
