@@ -3,10 +3,10 @@ package com.hospital.medcontrol.gerenciadores;
 import com.hospital.medcontrol.model.Medico;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.Serializable; // ADICIONADO
+import java.io.Serializable;
 
-public class GerenciadorMedicos implements Serializable { // ADICIONADO
-    private static final long serialVersionUID = 1L; // ADICIONADO
+public class GerenciadorMedicos implements Serializable {
+    private static final long serialVersionUID = 1L;
     private List<Medico> medicos = new ArrayList<>();
 
     public void cadastrarMedico(Medico medico) {

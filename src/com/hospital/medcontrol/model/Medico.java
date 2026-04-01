@@ -1,8 +1,11 @@
 package com.hospital.medcontrol.model;
 
 import com.hospital.medcontrol.enums.Especialidade;
+import java.io.Serializable;
 
-public class Medico {
+public class Medico implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String nome;
     private String crm;
     private Especialidade especialidade;
@@ -15,24 +18,12 @@ public class Medico {
         this.ativo = true;
     }
 
-    public String getNome() {
-        return nome;
-    }
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-    public String getCrm() {
-        return crm;
-    }
-    public Especialidade getEspecialidade() {
-        return especialidade;
-    }
-    public boolean isAtivo() {
-        return ativo;
-    }
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+    public String getCrm() { return crm; }
+    public Especialidade getEspecialidade() { return especialidade; }
+    public boolean isAtivo() { return ativo; }
+    public void setAtivo(boolean ativo) { this.ativo = ativo; }
 
     @Override
     public String toString() {
