@@ -1,10 +1,12 @@
 package com.hospital.medcontrol.model;
 import com.hospital.medcontrol.enums.TipoLeito;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class Internacao {
+public class Internacao  implements Serializable { // ADICIONADO
+    private static final long serialVersionUID = 1L;
     private int id;
     private String paciente;
     private String medico;

@@ -1,10 +1,12 @@
 package com.hospital.medcontrol.gerenciadores;
 import com.hospital.medcontrol.model.Internacao;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GerenciadorInternacaes {
+public class GerenciadorInternacaes  implements Serializable { // ADICIONADO
+    private static final long serialVersionUID = 1L;
     private List<Internacao> list= new ArrayList<>();
 
     public void registrarInternacao(Internacao i) {
