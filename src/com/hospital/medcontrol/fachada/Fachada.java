@@ -5,9 +5,9 @@ import com.hospital.medcontrol.enums.FormaPagamento;
 
 public class Fachada {
 
-    private GerenciadorPagamentos gerPagamentos = new GerenciadorPagamentos();
+    private static GerenciadorPagamentos gerPagamentos = new GerenciadorPagamentos();
 
-    public void pagarInternacao(double valor, int opcao) {
+    public static void pagarInternacao(double valor, int opcao) {
         FormaPagamento forma;
 
         switch (opcao) {
@@ -29,7 +29,7 @@ public class Fachada {
         System.out.println("Pagamento realizado com sucesso!");
     }
 
-    public void relatorioPagamentos() {
+    public static void relatorioPagamentos() {
         gerPagamentos.listarPagamentos();
     }
 }

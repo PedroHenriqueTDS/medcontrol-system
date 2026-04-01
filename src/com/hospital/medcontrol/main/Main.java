@@ -6,6 +6,7 @@ import com.hospital.medcontrol.model.PlanoDeSaude;
 import view.Hospital;
 import com.hospital.medcontrol.enums.Especialidade;
 import java.util.Scanner;
+import com.hospital.medcontrol.fachada.Fachada;
 
 public class Main {
 
@@ -21,6 +22,8 @@ public class Main {
         if (hospital == null) {
             hospital = new Hospital();
         }
+
+        Fachada fachada = new Fachada();
 
         int opcao;
 
@@ -217,23 +220,30 @@ public class Main {
 
                 case 6: {
                     // Módulo de Pagamento (Jeff Queijos)
+                    System.out.println("\nPAGAR INTERNAÇÃO");
                     System.out.print("Digite o valor da internação: ");
                     double valor = sc.nextDouble();
 
-                    System.out.println("Forma de pagamento:");
+                    System.out.println("\nForma de pagamento:");
                     System.out.println("1 - PIX/Dinheiro (10% desconto)");
                     System.out.println("2 - Cartão (valor normal)");
                     System.out.println("3 - Parcelado (8% juros)");
+                    System.out.print("Sua opção: ");
+                    int opcaoForma = sc.nextInt();
 
-                    int forma = sc.nextInt();
-                    hospital.pagarInternacao(valor, forma);
+                    Fachada.pagarInternacao(valor, opcaoForma);
+
                     break;
                 }
 
                 case 7: {
-                    System.out.println("\n--- RELATÓRIOS ---");
-                    hospital.relatorioPagamentos();
-                    hospital.listarMedicos(); // Exibe seus médicos cadastrados
+                    System.out.println("\nRELATÓRIOS");
+                    System.out.println("\nRelatório de Pagamentos:");
+                    Fachada.relatorioPagamentos();
+
+                    System.out.println("\nRelatório de Médicos:");
+                    hospital.listarMedicos();
+
                     break;
                 }
 
