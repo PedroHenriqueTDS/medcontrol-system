@@ -11,6 +11,7 @@ import com.hospital.medcontrol.model.Medico;
 import com.hospital.medcontrol.enums.Especialidade;
 import com.hospital.medcontrol.model.Paciente;
 import com.hospital.medcontrol.model.PlanoDeSaude;
+import com.hospital.medcontrol.enums.FormaPagamento;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -46,6 +47,14 @@ public class Hospital implements Serializable {
 
     public void listarMedicos() {
         gerMedicos.imprimirTodos();
+    }
+
+    public void registrarPagamento(double valor, FormaPagamento forma) {
+        gerPagamentos.registrarPagamento(valor, forma);
+    }
+
+    public void listarPagamentos() {
+        gerPagamentos.listarPagamentos();
     }
 
     // MÉTODOS DE PERSISTÊNCIA (Não alterem nada aqui embaixo pelas caridades)
