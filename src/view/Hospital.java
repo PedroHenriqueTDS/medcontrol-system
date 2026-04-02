@@ -1,68 +1,65 @@
 package view;
 
-import arquivos.Persistencia;
-import com.hospital.medcontrol.enums.TipoLeito;
-import com.hospital.medcontrol.gerenciadores.GerenciadorDePaciente;
-import com.hospital.medcontrol.gerenciadores.GerenciadorInternacaes;
-import com.hospital.medcontrol.gerenciadores.GerenciadorMedicos;
-import com.hospital.medcontrol.gerenciadores.GerenciadorPagamentos;
-import com.hospital.medcontrol.model.Internacao;
-import com.hospital.medcontrol.model.Medico;
-import com.hospital.medcontrol.enums.Especialidade;
-import com.hospital.medcontrol.model.Paciente;
-import com.hospital.medcontrol.model.PlanoDeSaude;
-import com.hospital.medcontrol.enums.FormaPagamento;
-
+import com.hospital.medcontrol.enums.*;
+import com.hospital.medcontrol.gerenciadores.*;
+import com.hospital.medcontrol.model.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
+import arquivos.Persistencia;
 
 public class Hospital implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Persistencia<Hospital> persistencia = new Persistencia<>();
 
-    // 1. ADICIONEM SEUS GERENCIADORES AQUI
-    private GerenciadorDePaciente gerenciadorPaciente = new GerenciadorDePaciente();
+    private GerenciadorDePaciente gerPacientes = new GerenciadorDePaciente();
     private GerenciadorMedicos gerMedicos = new GerenciadorMedicos();
-    private GerenciadorPagamentos gerPagamentos = new GerenciadorPagamentos();
     private GerenciadorInternacaes gerInternacoes = new GerenciadorInternacaes();
+    private GerenciadorPagamentos gerPagamentos = new GerenciadorPagamentos();
 
-    // 2. COLOQUEM OS MÉTODOS QUE O MAIN VAI CHAMAR
-    public void cadastrarMedico(String nome, String crm, Especialidade esp) {
-        Medico novo = new Medico(nome, crm, esp);
-        gerMedicos.cadastrarMedico(novo);
-    }
+    public void registrarInternacao(String cpf, String crm, TipoLeito leitoDesejado, String quarto, LocalDate entrada) {
+        Paciente p = gerPacientes.localizarPaciente(cpf);
+        if (p == null) throw new RuntimeException("Paciente não encontrado!");
 
-    public void registrarInternacao(int id, String paciente, String medico , TipoLeito tipoLeito, String quarto , LocalDate dataEntrada , String plano) {
-        Internacao novaInternacao = new Internacao(id, paciente, medico, tipoLeito, quarto, dataEntrada, plano);
-        gerInternacoes.registrarInternacao(novaInternacao);
-    }
+        TipoLeito limite = p.getPlanoDeSaude().getTipoInternacaoPermitida();
+        if (leitoDesejado == TipoLeito.APARTAMENTO && limite == TipoLeito.ENFERMARIA) {
+            throw new RuntimeException("O plano de saúde não permite leito tipo Apartamento!");
+        }
 
-    public void cadastrarPaciente(String nome, String cpf, String telefone, PlanoDeSaude plano) {
-        Paciente novo = new Paciente(nome, cpf, telefone, plano);
-        gerenciadorPaciente.cadastrarPaciente(nome, cpf, telefone, plano);
-    }
-    public Paciente localizarPaciente(String cpf) {
-        return gerenciadorPaciente.localizarPaciente(cpf);
-    }
+        int id = gerInternacoes.gerarNovoId();
+        double perc = p.getPlanoDeSaude().getPercentualPagamento();
 
-    public void listarMedicos() {
-        gerMedicos.imprimirTodos();
+        Internacao nova = new Internacao(id, cpf, crm, leitoDesejado, quarto, entrada, perc);
+        gerInternacoes.registrarInternacao(nova);
+        System.out.println("Sucesso! Guarde o ID da internação: " + id);
     }
 
-    public void registrarPagamento(double valor, FormaPagamento forma) {
-        gerPagamentos.registrarPagamento(valor, forma);
+    public void darAlta(int id, LocalDate data) { gerInternacoes.registarAlta(id, data); }
+
+    public void pagarInternacao(int id, int opcaoForma) {
+        Internacao i = gerInternacoes.buscarPorId(id);
+        if (i == null || i.isAtiva()) {
+            System.out.println("Erro: Apenas internações com alta podem ser pagas.");
+            return;
+        }
+        FormaPagamento forma = (opcaoForma == 1) ? FormaPagamento.PIX_DINHEIRO : (opcaoForma == 2) ? FormaPagamento.CARTAO : FormaPagamento.PARCELADO;
+        gerPagamentos.registrarPagamento(i, forma);
+        System.out.println("Pagamento registrado no sistema.");
     }
 
-    public void listarPagamentos() {
-        gerPagamentos.listarPagamentos();
-    }
+    public void cadastrarPaciente(String n, String c, String t, PlanoDeSaude p) { gerPacientes.cadastrarPaciente(n, c, t, p); }
+    public Paciente localizarPaciente(String cpf) { return gerPacientes.localizarPaciente(cpf); }
+    public void atualizarPlanoPaciente(String cpf, PlanoDeSaude plano) { gerPacientes.atualizarPlanoSaude(cpf, plano); }
 
-    // MÉTODOS DE PERSISTÊNCIA (Não alterem nada aqui embaixo pelas caridades)
-    public void salvarHospital(String nomeArquivo) {
-        persistencia.salvarEmArquivo(this, nomeArquivo);
-    }
+    public void cadastrarMedico(String n, String c, Especialidade e) { gerMedicos.cadastrarMedico(new Medico(n, c, e)); }
+    public void inativarMedico(String crm) { gerMedicos.removerMedico(crm); }
+    public void listarMedicos() { gerMedicos.imprimirTodos(); }
 
-    public static Hospital carregarHospital(String nomeArquivo) {
-        return persistencia.carregarDeArquivo(nomeArquivo);
-    }
+    public List<Internacao> buscarInternacoesCpf(String cpf) { return gerInternacoes.buscarPorCpf(cpf); }
+    public void listarInternacoesAtivas() { gerInternacoes.listarAtivas(); }
+    public void listarInternacoesConcluidas() { gerInternacoes.listarConcluidas(); }
+
+    public void relatorioPagamentos() { gerPagamentos.listarPagamentos(); }
+    public void salvarHospital(String arq) { persistencia.salvarEmArquivo(this, arq); }
+    public static Hospital carregarHospital(String arq) { return persistencia.carregarDeArquivo(arq); }
 }
