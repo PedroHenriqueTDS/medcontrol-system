@@ -17,21 +17,10 @@ public class Paciente implements Serializable {
         this.planoDeSaude = planoDeSaude;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public PlanoDeSaude getPlanoDeSaude() {
-        return planoDeSaude;
-    }
+    public String getNome() { return nome; }
+    public String getCpf() { return cpf; }
+    public String getTelefone() { return telefone; }
+    public PlanoDeSaude getPlanoDeSaude() { return planoDeSaude; }
 
     public void atualizarPlanoDeSaude(PlanoDeSaude novoPlano) {
         this.planoDeSaude = novoPlano;
@@ -43,11 +32,6 @@ public class Paciente implements Serializable {
 
     @Override
     public String toString() {
-        return "Paciente{" +
-                "nome='" + nome + '\'' +
-                ", cpf='" + cpf + '\'' +
-                ", telefone='" + telefone + '\'' +
-                ", planoDeSaude=" + planoDeSaude +
-                '}';
+        return "Paciente{nome='" + nome + "', cpf='" + cpf + "', telefone='" + telefone + "', planoDeSaude=" + planoDeSaude + '}';
     }
 }
