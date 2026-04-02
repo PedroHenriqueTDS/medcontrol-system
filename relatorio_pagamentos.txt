@@ -1,0 +1,4 @@
+=== RELATÓRIO OFICIAL DE PAGAMENTOS ===
+Pagamento ID: 1 | Internacao ID: 1 | CPF: 11122233344 | Forma: PIX_DINHEIRO | Valor Final: R$ 216,00
+---------------------------------------
+TOTAL GERAL RECEBIDO: R$ 216.0
