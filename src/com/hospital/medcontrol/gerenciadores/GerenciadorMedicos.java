@@ -51,10 +51,11 @@ public class GerenciadorMedicos implements Serializable {
             System.out.println("Nenhum médico cadastrado.");
             return;
         }
-        for (Medico m : medicos) System.out.println(m);
+        for (Medico m : medicos) {
+            if (m.isAtivo()) System.out.println(m);
+        }
     }
 
-    //Exceptions
     public static class CRMInvalidoException extends RuntimeException {
         public CRMInvalidoException() { super("CRM inválido! Formato correto: 123456/UF"); }
     }
@@ -65,4 +66,3 @@ public class GerenciadorMedicos implements Serializable {
         public MedicoNaoEncontradoException() { super("Médico não encontrado no sistema."); }
     }
 }
-// Modulo de medicos finalizado e revisado por Peu
