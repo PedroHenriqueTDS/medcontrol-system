@@ -1,84 +1,61 @@
 package com.hospital.medcontrol.model;
-import com.hospital.medcontrol.enums.TipoLeito;
 
+import com.hospital.medcontrol.enums.TipoLeito;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class Internacao  implements Serializable { // ADICIONADO
+public class Internacao implements Serializable {
     private static final long serialVersionUID = 1L;
+
     private int id;
-    private String paciente;
-    private String medico;
+    private String cpfPaciente;
+    private String crmMedico;
     private TipoLeito tipoLeito;
     private String quarto;
     private LocalDate dataEntrada;
     private LocalDate dataAlta;
-    private String tipoPlano;
+    private double percentualCoparticipacao;
 
-    public Internacao(int id, String paciente, String medico , TipoLeito tipoLeito, String quarto , LocalDate dataEntrada , String tipoPlano){
-        this.id=id;
-        this.paciente=paciente;
-        this.medico=medico;
+    public Internacao(int id, String cpfPaciente, String crmMedico, TipoLeito tipoLeito, String quarto, LocalDate dataEntrada, double percentualCoparticipacao) {
+        this.id = id;
+        this.cpfPaciente = cpfPaciente;
+        this.crmMedico = crmMedico;
         this.tipoLeito = tipoLeito;
-        this.quarto=quarto;
-        this.dataEntrada=dataEntrada;
-        this.tipoPlano=tipoPlano;
+        this.quarto = quarto;
+        this.dataEntrada = dataEntrada;
+        this.percentualCoparticipacao = percentualCoparticipacao;
     }
-    public void registrarAlta(LocalDate dataAlta) {
-        this.dataAlta = dataAlta;
-    }
-    public long calcularDias(){
+
+    public double calcularValorFinal() {
         if (dataAlta == null) return 0;
-        return ChronoUnit.DAYS.between(dataEntrada,dataAlta);
-    }
-    public double calcularValor() {
-        long dias = calcularDias();
+        long dias = ChronoUnit.DAYS.between(dataEntrada, dataAlta);
+        if (dias <= 0) dias = 1;
 
-        double diaria = 0;
+        double valorDiaria = switch (tipoLeito) {
+            case ENFERMARIA -> 320.0;
+            case APARTAMENTO -> 850.0;
+            case UTI -> 2500.0;
+        };
 
-        switch (tipoLeito){
-            case ENFERMARIA:
-                diaria = 300;
-                break;
-            case APARTAMENTO:
-                diaria = 800 ;
-                break;
-            case UTI:
-                diaria = 2500;
-                break;
-        }
-
-        double total = dias * diaria;
-
-        if (tipoPlano.equalsIgnoreCase("enfermaria")){
-            total *=0.8;
-        }else if (tipoPlano.equalsIgnoreCase("apartamento")) {
-            total *= 0.9 ;
-        }
-
-        return total;
-
-
-    }
-    public boolean isAtiva() {
-        return dataAlta == null;
+        double valorTotalHospital = dias * valorDiaria;
+        return valorTotalHospital * percentualCoparticipacao;
     }
 
-    public String getPaciente() {
-        return paciente;
-    }
-    public int getId() {
-        return id;
-    }
+    public void registrarAlta(LocalDate dataAlta) { this.dataAlta = dataAlta; }
+    public boolean isAtiva() { return dataAlta == null; }
 
+    // Getters para os relatórios
+    public int getId() { return id; }
+    public String getCpfPaciente() { return cpfPaciente; }
+    public String getCrmMedico() { return crmMedico; }
+    public TipoLeito getTipoLeito() { return tipoLeito; }
+    public LocalDate getDataEntrada() { return dataEntrada; }
+    public LocalDate getDataAlta() { return dataAlta; }
+
+    @Override
     public String toString() {
-        return "ID: " + id +
-                " | Paciente: " + paciente +
-                " | Leito: " + tipoLeito +
-                " | Entrada: " + dataEntrada +
-                " | Alta: " + dataAlta;
-
+        return String.format("ID: %d | CPF: %s | Medico: %s | Leito: %s | Entrada: %s | Alta: %s",
+                id, cpfPaciente, crmMedico, tipoLeito, dataEntrada, (dataAlta != null ? dataAlta : "Ativa"));
     }
 }
-

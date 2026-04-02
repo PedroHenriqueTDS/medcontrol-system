@@ -7,40 +7,34 @@ public class Pagamento implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int id;
-    private double valorOriginal;
+    private Internacao internacao;
     private double valorFinal;
     private FormaPagamento formaPagamento;
 
-    public Pagamento(int id, double valorOriginal, double valorFinal, FormaPagamento formaPagamento) {
+    public Pagamento(int id, Internacao internacao, FormaPagamento forma) {
         this.id = id;
-        this.valorOriginal = valorOriginal;
-        this.valorFinal = valorFinal;
-        this.formaPagamento = formaPagamento;
-    }
-
-    public Pagamento(int id, double valor, FormaPagamento forma) {
-        this.id = id;
-        this.valorOriginal = valor;
+        this.internacao = internacao;
         this.formaPagamento = forma;
-        this.valorFinal = calcularValorFinal(valor, forma);
+        this.valorFinal = calcularValorFinal(internacao.calcularValorFinal(), forma);
     }
 
-    private double calcularValorFinal(double valor, FormaPagamento forma) {
+    private double calcularValorFinal(double valorBase, FormaPagamento forma) {
         if (forma == FormaPagamento.PIX_DINHEIRO) {
-            return valor * 0.9;
+            return valorBase * 0.9;
         } else if (forma == FormaPagamento.PARCELADO) {
-            return valor * 1.08;
+            return valorBase * 1.08;
         } else {
-            return valor;
+            return valorBase; // Cartao normal
         }
     }
 
     public int getId() { return id; }
     public double getValorFinal() { return valorFinal; }
+    public Internacao getInternacao() { return internacao; }
 
     @Override
     public String toString() {
-        return String.format("Pagamento [ID: %d | Forma: %s | Valor Final: R$ %.2f]",
-                id, formaPagamento, valorFinal);
+        return String.format("Pagamento ID: %d | Internacao ID: %d | CPF: %s | Forma: %s | Valor Final: R$ %.2f",
+                id, internacao.getId(), internacao.getCpfPaciente(), formaPagamento, valorFinal);
     }
 }
